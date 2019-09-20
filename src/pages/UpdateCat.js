@@ -5,9 +5,10 @@ import {
     Button
 
 } from 'react-bootstrap'
+
 import Redirect from 'react'
 
-class NewCat extends React.Component {
+class UpdateCat extends React.Component {
     constructor(props){
       super(props)
       this.state = {
@@ -33,7 +34,7 @@ class NewCat extends React.Component {
     render(){
         return (
             <div>
-            <h1> Create New Cat</h1>
+            <h1> Update New Cat</h1>
 
             <Form>
 
@@ -41,7 +42,7 @@ class NewCat extends React.Component {
                 <Form.Label>Name</Form.Label>
                 <Form.Control
                  type="text"
-                 placeholder="Enter Cats Name"
+                 placeholder="Update Cats Name"
                  name= "name"
                  onChange={this.handleChange}
                  value={this.state.name}
@@ -79,13 +80,13 @@ class NewCat extends React.Component {
                 as="textarea"
                 rows="3"
                 name= "enjoys"
-                placeholder="Enter Cats bio"
+                placeholder="Update Cats bio"
                 onChange={this.handleChange}
                 value={this.state.enjoys}
                 />
               </Form.Group>
             <ButtonToolbar>
-             <Button value="Submit" variant="secondary" size="lg" onClick= {this.handleSubmit}> Submit
+             <Button value="Submit" variant="secondary" size="lg" onClick= {this.handleSubmit}> Update
              </Button>
              </ButtonToolbar>
          </Form>
@@ -97,4 +98,4 @@ class NewCat extends React.Component {
     }
 }
 
-export default NewCat;
+export default UpdateCat;

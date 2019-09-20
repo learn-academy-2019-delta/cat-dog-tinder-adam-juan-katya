@@ -1,54 +1,69 @@
 import React, { Component } from 'react';
-import {BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-
+import {BrowserRouter as Router, Switch, Route, Link, } from 'react-router-dom'
+import { Nav, Navbar, Form, Button} from 'react-bootstrap'
 import Cats from './pages/Cats';
 import NewCat from './pages/NewCat';
+import { getCats, createCat,showNewCat, showOldCat, updateCat } from './api'
 
 
 class App extends React.Component{
     constructor(props){
         super(props)
         this.state = {
-          cats: [
-            {
-              id: 1,
-              name: 'Morris',
-              age: 2,
-              enjoys: "Long walks on the beach.",
-              img: 'https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80'
-            },
-            {
-              id: 2,
-              name: 'Paws',
-              age: 4,
-              enjoys: "Snuggling by the fire.",
-              img: 'https://images.unsplash.com/photo-1519052537078-e6302a4968d4?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80'
-
-            },
-            {
-              id: 3,
-              name: 'Mr. Meowsalot',
-              age: 12,
-              enjoys: "Being in charge.",
-              img: 'https://images.unsplash.com/photo-1488740304459-45c4277e7daf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80'
-            }
-          ]
-        }
+          cats: []
       }
+  }
+
+        componentDidMount() {
+          getCats()
+        	.then(APIcats => {
+        	  this.setState({
+        		cats: APIcats
+        	  })
+          })
+}
 
 
-      handleNewCat = (arg) => {
-          console.log(arg)
-      }
+      // handleNewCat = (arg) => {
+      //     console.log(arg)
+      // }
+
+      handleNewCat(newCatInfo) {
+	         createCat(newCatInfo)
+             .then(successCat => {
+                showNewCat(newCatInfo)
+                console.log("SUCCESS! New cat: ", successCat);
+    })
+}
+            updateOldCat(updated) {
+                updateCat(updated)
+                .then(successCat => {
+                    showOldCat(updated)
+                console.log("SUCCESS! Update Cat: ", updateCat);
+            })
+}
+
 
   render(){
   return (
       <div>
+      <Router>
+      <Navbar bg="dark" variant="dark">
+        <Navbar.Brand as={Link} to="/Cats">Cat Tinder</Navbar.Brand>
+        <Nav className="mr-auto">
+          <Nav.Link as={Link}
+          to="/Cats">Home</Nav.Link>
+        </Nav>
+        <Form inline>
+          <Button as={Link} to="/NewCat" variant="outline-info">Add New Cat</Button>
+        </Form>
+      </Navbar>
 
-       <Router>
+
        <Switch>
         <Route exact path="/Cats" render= {( props)=> <Cats cats={this.state.cats}/> } />
         <Route exact path="/NewCat" render= {( props)=> <NewCat submittedCat={this.handleNewCat}/> } />
+        <Route exact path= "/UpdateCat" render= {(props) => <Cats cats={this.updateOldCat} /> } />
 
 
         </Switch>
